@@ -1,8 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/qOSCSCVhJF9
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -12,6 +7,9 @@ import { DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, Dropdown
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import logo from "../../public/logo192.png"
+import FileUpload from "@/customcomponents/UploadFile"
+import "../app/globals.css";
+
 export default function Home() {
     return (
         <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
@@ -147,13 +145,8 @@ export default function Home() {
                     <div className="border-dashed border-2 border-gray-200 rounded-lg border-gray-200 dark:border-gray-800">
                         <div className="grid items-center gap-4 p-4 md:gap-8 md:p-6">
                             <div className="flex flex-col items-center gap-1.5 text-center">
-                                <FileIcon className="h-12 w-12" />
-                                <div className="text-sm">
-                                    <Button size="xs" variant="ghost">
-                                        Upload Files
-                                    </Button>
-                                    <span className="block text-xs text-gray-500 dark:text-gray-400">or drag and drop</span>
-                                </div>
+                            <FileUpload/>
+                                
                             </div>
                             <div className="grid gap-4 w-full md:grid-cols-2">
                                 <div className="flex flex-col gap-1.5">
