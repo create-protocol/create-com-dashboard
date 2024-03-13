@@ -2,12 +2,12 @@
 
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 function FileUpload() {
     const [uploadedFile, setUploadedFile] = useState(null);
 
-    const onDrop = (acceptedFiles) => {
+    const onDrop = async (acceptedFiles) => {
         const file = acceptedFiles[0];
         setUploadedFile(file);
         // You can optionally display the file name or size to the user
@@ -15,7 +15,22 @@ function FileUpload() {
         console.log("File size:", file.size);
 
         // Send the file to your backend for upload
-        // Example: sendFileToBackend(file);
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const response = await fetch("https://create-com-backend.vercel.app/upload", {
+                method: "POST",
+                body: formData,
+            });
+            if (response.ok) {
+                console.log("File uploaded successfully");
+            } else {
+                console.error("Failed to upload file:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error uploading file:", error);
+        }
     };
 
     const { getRootProps, getInputProps } = useDropzone({ onDrop });
@@ -25,7 +40,6 @@ function FileUpload() {
             <input {...getInputProps()} />
             <FileIcon className="h-12 w-12" />
             <div className="text-sm">
-
                 <Button size="xs" variant="ghost">
                     Upload Files
                 </Button>
@@ -55,7 +69,7 @@ function FileIcon(props) {
             <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
             <polyline points="14 2 14 8 20 8" />
         </svg>
-    )
+    );
 }
 
 export default FileUpload;
