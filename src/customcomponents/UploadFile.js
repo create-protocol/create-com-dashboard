@@ -1,20 +1,15 @@
 "use client"; // This is a client component 👈🏽
 
 import React, { useState } from "react";
-import { useDropzone } from "react-dropzone";
 import { Button } from "@/components/ui/button";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function FileUpload() {
     const [uploadedFile, setUploadedFile] = useState(null);
+    const [uploading, setUploading] = useState(false);
 
-    const onDrop = async (acceptedFiles) => {
-        const file = acceptedFiles[0];
-        setUploadedFile(file);
-        // You can optionally display the file name or size to the user
-        console.log("Uploaded file:", file.name);
-        console.log("File size:", file.size);
-
-        // Send the file to your backend for upload
+    const uploadFile = async (file) => {
         const formData = new FormData();
         formData.append("file", file);
 
@@ -23,32 +18,68 @@ function FileUpload() {
                 method: "POST",
                 body: formData,
             });
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    const handleUpload = async () => {
+        if (!uploadedFile) {
+            toast.error("Please select a file to upload");
+            return;
+        }
+
+        setUploading(true);
+
+        try {
+            const response = await uploadFile(uploadedFile);
             if (response.ok) {
-                console.log("File uploaded successfully");
+                toast.success("File uploaded successfully");
+                setUploadedFile(null);
             } else {
                 console.error("Failed to upload file:", response.statusText);
             }
         } catch (error) {
             console.error("Error uploading file:", error);
+        } finally {
+            setUploading(false);
         }
     };
 
-    const { getRootProps, getInputProps } = useDropzone({ onDrop });
+    const handleFileChange = (acceptedFiles) => {
+        const file = acceptedFiles[0];
+        setUploadedFile(file);
+        // You can optionally display the file name or size to the user
+        console.log("Uploaded file:", file.name);
+        console.log("File size:", file.size);
+    };
 
     return (
-        <div {...getRootProps()} className="dropzone">
-            <input {...getInputProps()} />
-            <FileIcon className="h-12 w-12" />
-            <div className="text-sm">
-                <Button size="xs" variant="ghost">
-                    Upload Files
-                </Button>
-                <span className="block text-xs text-gray-500 dark:text-gray-400">or drag and drop</span>
-            </div>
+        <div className="dropzone flex flex-col items-center justify-center">
+            <label htmlFor="file-upload" className="cursor-pointer">
+                <FileIcon className="h-12 w-12" />
+            </label>
+            <input
+                type="file"
+                accept=".png,.jpg,.jpeg"
+                onChange={(e) => handleFileChange(e.target.files)}
+                style={{ display: "none" }}
+                id="file-upload"
+            />
             {uploadedFile && (
                 <p>Selected file: {uploadedFile.name} ({uploadedFile.size} bytes)</p>
             )}
+            <Button
+                size="xs"
+                onClick={handleUpload}
+                // disabled={!uploadedFile || uploading}
+                className="bg-black text-white mt-2 p-2"
+            >
+                {uploading ? "Uploading..." : "Upload"}
+            </Button>
         </div>
+
     );
 }
 
