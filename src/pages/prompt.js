@@ -13,6 +13,7 @@ const Prompt = () => {
     "TOGETHERCOMPUTER/REDPAJAMA-INCITE-CHAT-3B-V1",
   ]); // Array to hold available models
   const [response, setResponse] = useState(null); // State for API response
+  const [loading, setLoading] = useState(false);
 
   // Fetch available fine-tuning models on component mount
   //   useEffect(() => {
@@ -38,6 +39,7 @@ const Prompt = () => {
       return;
     }
 
+    setLoading(true);
     try {
       const response = await fetch("http://localhost:3000/inference", {
         method: "POST",
@@ -60,6 +62,7 @@ const Prompt = () => {
       console.error("Error calling fine-tuning API:", error);
       setResponse("An error occurred. Please try again later.");
     }
+    setLoading(false);
   };
 
   return (
@@ -92,12 +95,10 @@ const Prompt = () => {
         <button type="submit">Submit</button>
       </form>
 
-      {response && (
-        <div className="response-container">
-          <h2>Response</h2>
-          <p>{response}</p>
-        </div>
-      )}
+      <div className="response-container">
+        <h2>Response</h2>
+        <p>{loading ? "Loading..." : response}</p>
+      </div>
     </div>
   );
 };
