@@ -121,7 +121,6 @@ const Prompt = () => {
               valueField="value"
               searchable={false}
               dropdownHandle={false}
-            // Other props as needed
             />
 
           </div>
