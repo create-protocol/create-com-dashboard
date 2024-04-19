@@ -247,6 +247,14 @@ button:hover {
 .bi-chat {
   fill: #5C6BC0;
 }
+.left-container h1 {
+  margin-top: 20px;
+  font-size: 24px; /* Example size, adjust as needed */
+  color: #333; /* Adjust the color as needed */
+  margin-bottom: 20px; /* Space below the header */
+  text-align: center; /* Center the text */
+}
+
 
 .token-usage {
   font-size: 14px;
@@ -305,7 +313,7 @@ button:hover {
   }
   textarea {
     height: 16vh;
-    width: 320px;
+    width: 310px;
     padding: 10px;
     margin-bottom: 10px;
     margin-top: 20px;
@@ -319,7 +327,7 @@ button:hover {
   
   .response-container{
     height: 20vh;
-    width: 320px;
+    width: 310px;
   }
 }
 

@@ -145,13 +145,14 @@ const Prompt = () => {
               </div>
             )}
           </div>
+          <h1>Ask Anything</h1>
           <form onSubmit={handleSubmit}>
             <textarea
               id="prompt"
               value={prompt}
               onChange={(event) => setPrompt(event.target.value)}
               rows="5"
-              placeholder="Enter text here"
+              placeholder="e.g Suggest some fun activities"
             />
             <button
               type="submit"
@@ -161,7 +162,7 @@ const Prompt = () => {
               }}
               disabled={loading}
             >
-              Submit
+              Get your answer
             </button>
             <div className="response-container">
               <p>{loading ? "Loading..." : truncateResponse(response, outputLength)}</p>
