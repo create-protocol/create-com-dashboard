@@ -75,15 +75,15 @@ const Prompt = () => {
 
   // Update your playgroundOptions to remove the disabled property since you'll manage the alert with modal
   const playgroundOptions = [
-    { label: "Chat", value: "chat" },
-    { label: "Image", value: "image" }
+    { label: "CHAT", value: "CHAT" },
+    { label: "IMAGE", value: "IMAGE" }
   ];
-  const [selectedOption, setSelectedOption] = useState([{ label: "Chat", value: "chat" }]);
+  const [selectedOption, setSelectedOption] = useState([{ label: "CHAT", value: "CHAT" }]);
 
 
   const handleSelectionChange = (values) => {
     // Handle the change. You might want to display a modal for the "Image" option
-    if (values[0] && values[0].value === 'image') {
+    if (values[0] && values[0].value === 'IMAGE') {
       setShowModal(true);
     } else {
       setSelectedOption(values);
