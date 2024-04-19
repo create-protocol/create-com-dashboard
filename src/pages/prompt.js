@@ -117,10 +117,10 @@ const Prompt = () => {
               options={playgroundOptions}
               onChange={handleSelectionChange}
               values={selectedOption}
-               labelField="label"
+              labelField="label"
               valueField="value"
               searchable={false}
-              dropdownHandle={false}
+              dropdownHandle={true}
             />
 
           </div>
