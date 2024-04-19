@@ -38,6 +38,7 @@ body {
   text-align: justify;
   width: 146px;
 }
+
 /* Hypothetical selectors; use actual selectors from your inspection */
 .react-dropdown-select__dropdown-indicator {
   margin-left: 10px !important;
@@ -46,6 +47,7 @@ body {
 .react-dropdown-select__placeholder {
   margin-right: 10px !important;
 }
+
 /* CSS to hide the 'Disabled' text if it appears */
 .react-dropdown-select-option[data-is-coming-soon="true"]::after {
   content: 'Coming Soon';
@@ -57,9 +59,11 @@ body {
   content: 'Feature coming soon!';
   color: red;
 }
+
 .disabled-option {
   color: grey;
 }
+
 .disabled-option:hover {
   cursor: not-allowed;
 }
@@ -83,6 +87,7 @@ body {
 
 .main-container {
   margin-top: 0px;
+  padding: 10px;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -97,7 +102,7 @@ body {
   flex-direction: column;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 20px 4px rgba(10, 10, 0, 0.2);
+  box-shadow: 0 0px 4px rgba(10, 10, 0, 0.2);
 }
 
 .right-container {
@@ -253,6 +258,7 @@ button:hover {
 
 @media (max-width: 768px) {
   .main-container {
+    
     flex-direction: column;
   }
 
@@ -260,20 +266,62 @@ button:hover {
   .right-container {
     width: 100%;
   }
+  .left-container{
+    margin-top: 40px;
+
+  }
 
   .logo-container {
+    margin-left: -10px;
     position: relative;
   }
-  .header{
+
+  .header {
+    margin-left: -14px;
     margin-bottom: 100px;
   }
+
   .logo-and-dropdown-container {
     flex-direction: column;
     align-items: flex-start;
   }
 
   .dropdown-container {
-    margin-left: 0;
+    width: 200px;
+    margin-left: 10px;
+    margin-right: auto;
     margin-top: 1rem;
   }
+
+  .model-display {
+    background-color: #eee;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 8px;
+  }
+  textarea {
+    width: 320px;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    border: 2px solid #5C6BC0;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  button{
+    width: 320px;
+  }
+  .response-container{
+    width: 320px;
+  }
+}
+
+.create-protocol {
+  width: 300px;
+  /* background-color: red; */
+  font-size: 1.325rem;
+  font-weight: bolder;
+  color: black;
+  margin-left: 20px;
 }
