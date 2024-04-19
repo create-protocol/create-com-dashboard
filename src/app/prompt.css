@@ -267,7 +267,7 @@ button:hover {
     width: 100%;
   }
   .left-container{
-    margin-top: 40px;
+    margin-top: -40px;
 
   }
 
@@ -314,6 +314,12 @@ button:hover {
   }
   .response-container{
     width: 320px;
+  }
+}
+
+@media (max-width: 375px) {
+  .left-container{
+    margin-top: 60px;
   }
 }
 
