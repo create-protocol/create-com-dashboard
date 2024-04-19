@@ -1,171 +1,279 @@
-/* prompt.css */
 body {
-    font-family: 'Arial', sans-serif;
-    background: #f4f4f4;
-    color: #333;
-    margin: 0;
-    /* padding: 20px; */
-   
-  }
-  
-  .main-container {
-    margin-top: 20px;
-    height: 100vh; /* Use vh for full viewport height */
-    /* background: red; */
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    gap: 20px;
-    padding-top: 0; /* Remove top padding to account for logo-container */
-  }
-  
-  .left-container {
-    /* background: black; */
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .right-container {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-  }
-  .logo-container {
-    padding: 20px;
-    display: flex;
-    gap: 10px;
-    background: black; /* Match the background to the main-container */
-  }
+  font-family: 'Arial', sans-serif;
+  background: #f4f4f4;
+  color: #333;
+  margin: 0;
+}
 
-  
-  h1, h2 {
-    color: #333;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  label {
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-  
-  input {
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  select{
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  textarea{
-    padding: 10px;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    border: 2px solid #5C6BC0;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  button{
-    background-color: #5C6BC0;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-weight: 600;
-  }
+.header {
+  margin-right: 50px;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
 
-  input[type='range']::-webkit-slider-thumb {
-    width: 100%;
-    height: 8px;
-    cursor: pointer;
-    background: red; /* Track color */
-    border-radius: 4px;
-  }
-  
+.logo-and-dropdown-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
 
-  button:hover{
-    background-color: black;
-    color: white;
-    font-weight: 600;
-  }
-  
-  .response-container {
-    height: 50vh;
-    background-color: #eeeeee;
-    border: 2px solid #5C6BC0;
-    border-radius: 4px;
-    padding: 10px;
-  }
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 
-  .header-container {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    gap: 10px;
-  }
-  
-  .model-display {
-    background-color: #eee;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    /* Remove margin if it's in the same row */
-  }
-  .outputlen{
-    background-color: #eee;
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 60px;
-    font-weight: bold;
-    text-align: center;
-    border-radius: 20px;
-    font-size: 12px;
-  }
-  .bi-chat {
-    fill: #5C6BC0; /* Adjust the color to match your design */
-  }
-  /* In prompt.css */
+.create-protocol {
+  font-size: 1.325rem;
+  font-weight: 700;
+  color: black;
+  margin-left: 20px;
+}
+
+.dropdown-container {
+  text-align: justify;
+  width: 146px;
+}
+/* Hypothetical selectors; use actual selectors from your inspection */
+.react-dropdown-select__dropdown-indicator {
+  margin-left: 10px !important;
+}
+
+.react-dropdown-select__placeholder {
+  margin-right: 10px !important;
+}
+/* CSS to hide the 'Disabled' text if it appears */
+.react-dropdown-select-option[data-is-coming-soon="true"]::after {
+  content: 'Coming Soon';
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.react-dropdown-select-option[data-is-coming-soon="true"]:hover::after {
+  content: 'Feature coming soon!';
+  color: red;
+}
+.disabled-option {
+  color: grey;
+}
+.disabled-option:hover {
+  cursor: not-allowed;
+}
+
+
+
+.playground-dropdown {
+  background-color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid gray;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.playground-dropdown:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+}
+
+.main-container {
+  margin-top: 0px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  gap: 20px;
+  padding-top: 0;
+}
+
+.left-container {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 20px 4px rgba(10, 10, 0, 0.2);
+}
+
+.right-container {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.logo-container {
+  padding: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+
+h1,
+h2 {
+  color: #333;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+select {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+textarea {
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  border: 2px solid #5C6BC0;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  background-color: #5C6BC0;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover,
+button:disabled {
+  background-color: #3F51B5;
+}
+
+button:disabled {
+  cursor: default;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+button {
+  background-color: #5C6BC0;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-weight: 600;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  background: red;
+  border-radius: 4px;
+}
+
+
+button:hover {
+  background-color: black;
+  color: white;
+  font-weight: 600;
+}
+
+.response-container {
+  height: 50vh;
+  background-color: #eeeeee;
+  border: 2px solid #5C6BC0;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+}
+
+.model-display {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.outputlen {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 60px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.bi-chat {
+  fill: #5C6BC0;
+}
+
 .token-usage {
-    font-size: 14px; /* Adjust the font size as needed */
-    color: #4A90E2; /* A nice, readable blue color; adjust as needed */
-    font-weight: 600; /* Make it bold to stand out */
-    padding: 10px; /* Add some padding for spacing */
-    margin-top: 10px; /* Space from the text above */
-    border-radius: 5px; /* Rounded corners for a softer look */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
-    display: inline-block; /* Make the background only wrap the text */
-  }
-  
-  
-  
-  @media (max-width: 768px) {
-    .main-container {
-      flex-direction: column;
-    }
-    .left-container, .right-container {
-      width: 100%;
-    }
-    .logo-container {
-        position: relative; /* Or adjust the positioning as needed for mobile */
-      }
+  font-size: 14px;
+  color: #4A90E2;
+  font-weight: 600;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column;
   }
 
+  .left-container,
+  .right-container {
+    width: 100%;
+  }
 
-  
+  .logo-container {
+    position: relative;
+  }
+  .header{
+    margin-bottom: 100px;
+  }
+  .logo-and-dropdown-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dropdown-container {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+}

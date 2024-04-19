@@ -3,9 +3,11 @@
 
 import React, { useState } from "react";
 import "../app/prompt.css";
-import logo from "../../public/Vector.png"
+import logo from "../../public/Group 165.svg"
 import chatIcon from "../../public/chat.png";
 import Image from "next/image";
+import Select from 'react-dropdown-select';
+import Model from "../customcomponents/Model"
 
 const Prompt = () => {
   const [prompt, setPrompt] = useState("");
@@ -13,6 +15,7 @@ const Prompt = () => {
   const [tokenUsage, setTokenUsage] = useState(0);
   const [outputLength, setOutputLength] = useState(300);
   const [responseTime, setResponseTime] = useState(0);
+
   const [models, setModels] = useState([
     "MISTRALAI/MISTRAL-7B-INSTRUCT-V0.1",
     "MISTRALAI/MISTRAL-7B-INSTRUCT-V0.2",
@@ -67,8 +70,31 @@ const Prompt = () => {
     setLoading(false);
   };
 
+
+  const [showModal, setShowModal] = useState(false);
+
+  // Update your playgroundOptions to remove the disabled property since you'll manage the alert with modal
+  const playgroundOptions = [
+    { label: "Chat", value: "chat" },
+    { label: "Image", value: "image" }
+  ];
+  const [selectedOption, setSelectedOption] = useState([{ label: "Chat", value: "chat" }]);
+
+
+  const handleSelectionChange = (values) => {
+    // Handle the change. You might want to display a modal for the "Image" option
+    if (values[0] && values[0].value === 'image') {
+      setShowModal(true);
+    } else {
+      setSelectedOption(values);
+    }
+  };
   const handleSliderChange = (event) => {
     setOutputLength(event.target.value);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHoveringImage(false);
   };
 
   // Function to truncate the response
@@ -80,10 +106,34 @@ const Prompt = () => {
 
   return (
     <>
-      <div className="logo-container">
-        <Image src={logo} alt="Logo" width={50} height={50} />
-        <span style={{ color: "#ccc",fontSize:"18px",fontWeight:"500" }}>Create Protocol</span>
-      </div>
+      <header className="header">
+        <div className="logo-and-dropdown-container">
+          <div className="logo-container">
+            <Image src={logo} alt="Logo" width={100} height={80} />
+            <span className="create-protocol">Create Protocol</span>
+          </div>
+          <div className="dropdown-container">
+            <Select
+              options={playgroundOptions}
+              onChange={handleSelectionChange}
+              values={selectedOption}
+               labelField="label"
+              valueField="value"
+              searchable={false}
+              dropdownHandle={false}
+            // Other props as needed
+            />
+
+          </div>
+
+        </div>
+      </header>
+      <Model
+        isOpen={showModal}
+        message="Feature Coming Soon!"
+        onClose={() => setShowModal(false)}
+      />
+
       <div className="main-container">
         <div className="left-container">
           <div className="header-container">
@@ -145,8 +195,8 @@ const Prompt = () => {
                 </option>
               ))}
             </optgroup>
-            
-            <optgroup label="Together Computer Models">
+
+            <optgroup label="NOUSRESEARCH Models">
               {models.filter(model => model.includes("NOUSRESEARCH")).map((model) => (
                 <option key={model} value={model}>
                   {model}
@@ -154,7 +204,7 @@ const Prompt = () => {
               ))}
             </optgroup>
           </select>
-          <div style={{ display: "flex", justifyContent: "space-between",marginTop:"20px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px" }}>
             <label htmlFor="output-length">Output Length:</label>
             <div style={{ display: "flex", alignItems: "center" }}>
               <p className="outputlen">{outputLength}</p>
