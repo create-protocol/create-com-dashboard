@@ -97,7 +97,7 @@ body {
 }
 
 .left-container {
-  flex: 3;
+  flex: 2;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -108,6 +108,7 @@ body {
 .right-container {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   flex: 1;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -239,7 +240,7 @@ button:hover {
   background-color: #eee;
   border: 1px solid #ccc;
   padding: 10px;
-  width: 60px;
+  width: 80px;
   font-weight: bold;
   text-align: center;
   border-radius: 20px;

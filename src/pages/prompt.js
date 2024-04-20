@@ -11,26 +11,79 @@ import Model from "../customcomponents/Model"
 
 const Prompt = () => {
   const [prompt, setPrompt] = useState("");
-  const [selectedModel, setSelectedModel] = useState("MISTRALAI/MIXTRAL-8X22B-INSTRUCT-V0.1");
   const [tokenUsage, setTokenUsage] = useState(0);
   const [outputLength, setOutputLength] = useState(300);
   const [responseTime, setResponseTime] = useState(0);
+  const [selectedModel, setSelectedModel] = useState([]);
 
-  const [models, setModels] = useState([
-    "MISTRALAI/MISTRAL-7B-INSTRUCT-V0.1",
-    "MISTRALAI/MISTRAL-7B-INSTRUCT-V0.2",
-    "MISTRALAI/MIXTRAL-8X22B-INSTRUCT-V0.1",
-    "MISTRALAI/MIXTRAL-8X7B-INSTRUCT-V0.1",
-    "META-LLAMA/LLAMA-2-13B-CHAT-HF",
-    "META-LLAMA/LLAMA-2-70B-CHAT-HF",
-    "META-LLAMA/LLAMA-2-7B-CHAT-HF",
-    "META-LLAMA/LLAMA-3-70B-CHAT-HF",
-    "META-LLAMA/LLAMA-3-8B-CHAT-HF",
-    "NOUSRESEARCH/NOUS-CAPYBARA-7B-V1P9",
-    "NOUSRESEARCH/NOUS-HERMES-2-MISTRAL-7B-DPO",
-    "NOUSRESEARCH/NOUS-HERMES-2-MIXTRAL-8X7B-DPO"
+  const models = [
+    {
+      label: "Meta Models",
+      options: [
+        { label: "META-LLAMA/LLAMA-2-13B-CHAT-HF", value: "META-LLAMA/LLAMA-2-13B-CHAT-HF" },
+        { label: "META-LLAMA/LLAMA-2-70B-CHAT-HF", value: "META-LLAMA/LLAMA-2-70B-CHAT-HF" },
+        { label: "META-LLAMA/LLAMA-2-7B-CHAT-HF", value: "META-LLAMA/LLAMA-2-7B-CHAT-HF" },
+        { label: "META-LLAMA/LLAMA-3-70B-CHAT-HF", value: "META-LLAMA/LLAMA-3-70B-CHAT-HF" },
+        { label: "META-LLAMA/LLAMA-3-8B-CHAT-HF", value: "META-LLAMA/LLAMA-3-8B-CHAT-HF" },
+      ]
+    },
+    {
+      label: "Mistral Models",
+      options: [
+        { label: "MISTRALAI/MISTRAL-7B-INSTRUCT-V0.1", value: "MISTRALAI/MISTRAL-7B-INSTRUCT-V0.1" },
+        { label: "MISTRALAI/MISTRAL-7B-INSTRUCT-V0.2", value: "MISTRALAI/MISTRAL-7B-INSTRUCT-V0.2" },
+        { label: "MISTRALAI/MIXTRAL-8X22B-INSTRUCT-V0.1", value: "MISTRALAI/MIXTRAL-8X22B-INSTRUCT-V0.1" },
+        { label: "MISTRALAI/MIXTRAL-8X7B-INSTRUCT-V0.1", value: "MISTRALAI/MIXTRAL-8X7B-INSTRUCT-V0.1" },
+      ]
+    },
+    {
+      label: "NousResearch Models",
+      options: [
+        { label: "NOUSRESEARCH/NOUS-CAPYBARA-7B-V1P9", value: "NOUSRESEARCH/NOUS-CAPYBARA-7B-V1P9" },
+        { label: "NOUSRESEARCH/NOUS-HERMES-2-MISTRAL-7B-DPO", value: "NOUSRESEARCH/NOUS-HERMES-2-MISTRAL-7B-DPO" },
+        { label: "NOUSRESEARCH/NOUS-HERMES-2-MIXTRAL-8X7B-DPO", value: "NOUSRESEARCH/NOUS-HERMES-2-MIXTRAL-8X7B-DPO" },
+      ]
+    }
+  ];
+  
+  
 
+
+  const groupedOptions = models.flatMap(group => [
+    { label: group.label, value: group.label, isGroupLabel: true },
+    ...group.options
   ]);
+
+
+  const handleModelChange = (selectedItems) => {
+    const filteredItems = selectedItems.filter(item => !item.isGroupLabel);
+    setSelectedModel(filteredItems);
+  };
+
+
+  const customItemRenderer = ({ item, methods }) => {
+    if (item.isGroupLabel) {
+      // Render a non-selectable group label
+      return (
+        <div style={{ fontWeight: 'bold', color: '#888', padding: '10px 20px' }}>
+          {item.label}
+        </div>
+      );
+    } else {
+      // Render a selectable option
+      return (
+        <div
+          onClick={() => methods.addItem(item)}
+          style={{ cursor: 'pointer', padding: '10px 20px' }}
+        >
+          {item.label}
+        </div>
+      );
+    }
+  };
+
+
+
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -45,11 +98,11 @@ const Prompt = () => {
     const startTime = Date.now();
     setLoading(true);
     try {
-      console.log(selectedModel)
+      console.log(selectedModel[0].value)
       const response = await fetch("https://fine-tuning-backend-t76cvz6sta-el.a.run.app/inference", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt, model: selectedModel }),
+        body: JSON.stringify({ prompt, model: selectedModel[0].value }),
       });
 
       if (!response.ok) {
@@ -93,9 +146,7 @@ const Prompt = () => {
     setOutputLength(event.target.value);
   };
 
-  const handleMouseLeave = () => {
-    setIsHoveringImage(false);
-  };
+
 
   // Function to truncate the response
   const truncateResponse = (response, maxLength) => {
@@ -140,9 +191,8 @@ const Prompt = () => {
 
             <h1 style={{ fontSize: "14px" }}>CHAT</h1>
             {selectedModel && (
-              <div className="model-display">
-                {selectedModel}
-              </div>
+              <div className="model-display">{selectedModel.length > 0 ? selectedModel[0].value : 'No model selected'}</div>
+
             )}
           </div>
           <h1>Ask Anything</h1>
@@ -176,34 +226,17 @@ const Prompt = () => {
         </div>
         <div className="right-container">
           <label htmlFor="model">Fine-Tuning Model:</label>
-          <select
-            id="model"
-            value={selectedModel}
-            onChange={(event) => setSelectedModel(event.target.value)}
-          >
-            <optgroup label="Meta Models">
-              {models.filter(model => model.includes("META-LLAMA")).map((model) => (
-                <option key={model} value={model}>
-                  {model}
-                </option>
-              ))}
-            </optgroup>
-            <optgroup label="Mistral Models">
-              {models.filter(model => model.includes("MISTRALAI")).map((model) => (
-                <option key={model} value={model}>
-                  {model}
-                </option>
-              ))}
-            </optgroup>
+          <Select
+            options={groupedOptions}
+            onChange={handleModelChange}
+            values={selectedModel}
+            itemRenderer={customItemRenderer}
+            labelField="label"
+            valueField="value"
+            dropdownHandle={true}
+            searchable={true}
+          />
 
-            <optgroup label="NOUSRESEARCH Models">
-              {models.filter(model => model.includes("NOUSRESEARCH")).map((model) => (
-                <option key={model} value={model}>
-                  {model}
-                </option>
-              ))}
-            </optgroup>
-          </select>
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px" }}>
             <label htmlFor="output-length">Output Length:</label>
             <div style={{ display: "flex", alignItems: "center" }}>
