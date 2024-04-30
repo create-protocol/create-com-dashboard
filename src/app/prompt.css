@@ -278,8 +278,15 @@ button:hover {
 
 @media (max-width: 768px) {
   .main-container {
-
     flex-direction: column;
+  }
+  .model-select-container {
+    width: 100%; /* Ensure model selection dropdown takes full width on mobile */
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: center;
   }
 
   .left-container,
@@ -290,6 +297,15 @@ button:hover {
   .left-container {
     margin-top: -40px;
 
+  }
+  .left-container {
+    order: 2; /* Ensure the form and text area come after the model selection on mobile */
+  }
+
+  .right-container {
+    order: 1; /* Model selection comes first on mobile */
+    margin-bottom: 50px;
+    margin-top: -74px;
   }
 
   .logo-container {
@@ -308,8 +324,9 @@ button:hover {
   }
 
   .dropdown-container {
-    width: 200px;
-    margin-left: 10px;
+    width: 100%; /* Full width for mobile */
+    margin-top: 10px;
+        margin-left: 10px;
     margin-right: auto;
     margin-top: 1rem;
   }

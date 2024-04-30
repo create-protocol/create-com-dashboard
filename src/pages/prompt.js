@@ -197,6 +197,7 @@ const Prompt = () => {
           </div>
           <h1>Ask Anything</h1>
           <form onSubmit={handleSubmit}>
+            
             <textarea
               id="prompt"
               value={prompt}

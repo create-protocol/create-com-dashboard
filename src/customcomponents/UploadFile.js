@@ -9,51 +9,108 @@ function FileUpload() {
     const [uploadedFile, setUploadedFile] = useState(null);
     const [uploading, setUploading] = useState(false);
 
-    const uploadFile = async (file) => {
+
+    const uploadFileToS3 = async (file) => {
         const formData = new FormData();
         formData.append("file", file);
-
+    
         try {
-            const response = await fetch("https://create-com-backend.vercel.app/upload", {
+            const response = await fetch("http://localhost:8080/upload", {
                 method: "POST",
                 body: formData,
             });
+            if (!response.ok) {
+                const errorText = await response.text(); // Fetch the error message as text
+                throw new Error(errorText || "Failed to upload to S3");
+            }
+            const data = await response.json();
+            return data.url;
+        } catch (error) {
+            throw error;
+        }
+    };
+    
+    const uploadJsonToS3 = async (jsonFile) => {
+        const formData = new FormData();
+        formData.append("file", jsonFile);
+    
+        try {
+            const response = await fetch("http://localhost:8080/upload", {
+                method: "POST",
+                body: formData,
+            });
+            if (!response.ok) {
+                const errorText = await response.text(); // Fetch the error message as text
+                throw new Error(errorText || "Failed to upload JSON to S3");
+            }
+            console.log(response)
             return response;
         } catch (error) {
             throw error;
         }
     };
+    
+
+
+    // const uploadFile = async (file) => {
+    //     const formData = new FormData();
+    //     formData.append("file", file);
+
+    //     try {
+    //         const response = await fetch("https://create-com-backend.vercel.app/upload", {
+    //             method: "POST",
+    //             body: formData,
+    //         });
+    //         return response;
+    //     } catch (error) {
+    //         throw error;
+    //     }
+    // };
 
     const handleUpload = async () => {
         if (!uploadedFile) {
             toast.error("Please select a file to upload");
             return;
         }
-
+    
         setUploading(true);
-
+    
         try {
-            const response = await uploadFile(uploadedFile);
+            const imageUrl = await uploadFileToS3(uploadedFile);
+            const jsonFileData = { imageUrl };
+    
+            const jsonBlob = new Blob([JSON.stringify(jsonFileData)], { type: 'application/json' });
+            const jsonFile = new File([jsonBlob], "fileData.json", { type: 'application/json' });
+    
+            const response = await uploadJsonToS3(jsonFile);
             if (response.ok) {
-                toast.success("File uploaded successfully");
+                toast.success("Image and JSON uploaded successfully");
                 setUploadedFile(null);
             } else {
-                console.error("Failed to upload file:", response.statusText);
+                const errorText = await response.text();
+                toast.error(errorText || "Failed to upload JSON");
             }
         } catch (error) {
-            console.error("Error uploading file:", error);
+            console.error("Error during upload:", error.message);
+            toast.error("Error: " + error.message);
         } finally {
             setUploading(false);
         }
     };
-
-    const handleFileChange = (acceptedFiles) => {
-        const file = acceptedFiles[0];
-        setUploadedFile(file);
-        // You can optionally display the file name or size to the user
-        console.log("Uploaded file:", file.name);
-        console.log("File size:", file.size);
+    
+    const handleFileChange = (event) => {
+        console.log("Event received in handleFileChange:", event);
+        if (event.target.files && event.target.files.length > 0) {
+            const file = event.target.files[0];
+            setUploadedFile(file);
+            console.log("Uploaded file:", file.name, "File size:", file.size);
+        } else {
+            console.log("No file selected or file input is incorrect.");
+        }
     };
+
+
+
 
     return (
         <div className="dropzone flex flex-col items-center justify-center">
@@ -63,21 +120,23 @@ function FileUpload() {
             <input
                 type="file"
                 accept=".png,.jpg,.jpeg"
-                onChange={(e) => handleFileChange(e.target.files)}
+                onChange={handleFileChange}  // Pass the event directly
                 style={{ display: "none" }}
                 id="file-upload"
             />
+
             {uploadedFile && (
                 <p>Selected file: {uploadedFile.name} ({uploadedFile.size} bytes)</p>
             )}
             <Button
                 size="xs"
                 onClick={handleUpload}
-                // disabled={!uploadedFile || uploading}
-                className="bg-black text-white mt-2 p-2"
+                disabled={!uploadedFile || uploading}  // Ensure the button is disabled when appropriate
+                className={`mt-2 p-2 ${uploading || !uploadedFile ? 'bg-gray-400' : 'bg-black text-white'}`}
             >
                 {uploading ? "Uploading..." : "Upload"}
             </Button>
+
         </div>
 
     );
