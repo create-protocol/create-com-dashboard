@@ -18,6 +18,13 @@ const Prompt = () => {
 
   const models = [
     {
+      label: "Upcoming Models",
+      options: [
+        { label: "Shakespeare-Inspired AI", value: "SHAKESPEARE-AI" },
+        { label: "J. K. Rowling Style AI", value: "JKROWLING-AI" },
+      ]
+    },
+    {
       label: "Meta Models",
       options: [
         { label: "META-LLAMA/LLAMA-2-13B-CHAT-HF", value: "META-LLAMA/LLAMA-2-13B-CHAT-HF" },
@@ -57,8 +64,11 @@ const Prompt = () => {
 
   const handleModelChange = (selectedItems) => {
     const filteredItems = selectedItems.filter(item => !item.isGroupLabel);
-    setSelectedModel(filteredItems);
-  };
+    if (filteredItems.some(item => item.value === "SHAKESPEARE-AI" || item.value === "JKROWLING-AI")) {
+      setShowModal(true);
+    } else {
+      setSelectedModel(filteredItems);
+    }  };
 
 
   const customItemRenderer = ({ item, methods }) => {
@@ -135,7 +145,6 @@ const Prompt = () => {
 
 
   const handleSelectionChange = (values) => {
-    // Handle the change. You might want to display a modal for the "Image" option
     if (values[0] && values[0].value === 'IMAGE') {
       setShowModal(true);
     } else {
@@ -180,7 +189,7 @@ const Prompt = () => {
       </header>
       <Model
         isOpen={showModal}
-        message="Feature Coming Soon!"
+        message="Coming Soon!"
         onClose={() => setShowModal(false)}
       />
 
